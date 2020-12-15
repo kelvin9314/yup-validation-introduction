@@ -5,13 +5,10 @@ const schema = yup.object().shape({
   age: yup.number().required().positive('數字需要為正整數').integer(),
   email: yup.string().email(),
   website: yup.string().url(),
-  createdOn: yup.date().default(function () {
-    return new Date();
-  }),
 });
 
-async function example1() {
-  // NOTE isValid
+async function exampleOne() {
+  // TAG isValid
   try {
     const data = {
       name: 'Kelvin',
@@ -19,15 +16,15 @@ async function example1() {
     }
     const valid = await schema.isValid(data)
     console.log(valid)
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
   
 }
-// example1()
+// exampleOne()
 
-async function example2(field) {
-  // NOTE validateAt
+async function exampleTwo(field) {
+  // TAG validateAt
   try {
       const data = {
         name: 'Kelvin',
@@ -37,31 +34,32 @@ async function example2(field) {
 
     console.log('pass')
     // reset the error state on this field
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
     // set the error message into state
   }
   
 }
+// exampleTwo('age')
 
-// example2('age')
-
-async function example3() {
-  // NOTE validate
+async function exampleThree() {
+  // TAG validate
   try {
       const data = {
-        name: 'Kelvin',
-        age: 24,
+        // name: 'Kelvin',
+        age: -24,
+        email: 123456789
       }
-    await schema.validate(data)
+    await schema.validate(data) 
+    // await schema.validate(data, { abortEarly: false })
 
     console.log('pass')
-    // continue the flowing job 
-  } catch (error) {
-    console.log(error)
-    // set the error message into state
+    // continue the following job 
+  } catch (err) {
+    console.log(err)
+    // console.log(err.inner)
+    // set the error message into state one by one according to the filed name
   }
   
 }
-
-example3()
+// exampleThree()
